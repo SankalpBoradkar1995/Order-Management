@@ -9,14 +9,14 @@
 	</parent>
 	<groupId>com.process.orders</groupId>
 	<artifactId>Process-Orders</artifactId>
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter</artifactId>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+	<packaging>jar</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+	</dependencies>
 
 	<build>
 		<plugins>
