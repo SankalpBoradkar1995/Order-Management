@@ -31,15 +31,27 @@
 		<java.version>17</java.version>
 		<spring-boot.version>3.3.5</spring-boot.version>
 		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+		<spring-jpa.version>3.3.5</spring-jpa.version>
+		<spring-feign.version>4.1.0</spring-feign.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter</artifactId>
+				<artifactId>spring-boot-starter-web</artifactId>
 				<version>${spring-boot.version}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-data-jpa</artifactId>
+				<version>${spring-jpa.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-openfeign</artifactId>
+				<version>${spring-feign.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-test</artifactId>
@@ -71,5 +83,6 @@
 	</build>
 	<modules>
 		<module>Process-Orders</module>
+		<module>Process-Inventory</module>
 	</modules>
 </project>

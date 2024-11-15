@@ -7,8 +7,8 @@
 		<artifactId>com.management.order</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.process.orders</groupId>
-	<artifactId>Process-Orders</artifactId>
+	<artifactId>Process-Inventory</artifactId>
+	<name>Process-Inventory</name>
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
