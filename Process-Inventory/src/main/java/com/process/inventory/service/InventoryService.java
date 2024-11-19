@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.process.inventory.entity.InventoryyEntity;
 import com.process.inventory.repository.InventoryRepository;
+import com.process.inventory.response.GetInventoryResponse;
 
 @Service
 public class InventoryService {
@@ -21,26 +22,13 @@ public class InventoryService {
 		this.inventoryRepository = inventoryRepository;
 	}
 
-	public ResponseEntity<Map<String, Object>> getProductDetails(String productId)
-	{
-		Optional<InventoryyEntity> response = inventoryRepository.findByProductId(productId);
-		if(response.isPresent())
-		{
-			InventoryyEntity inventory = response.get();
-			
-			// Convert InventoryyEntity to Map
-			Map<String, Object> responseData = new HashMap<>();
-			responseData.put("itemId", inventory.getProductId());
-			responseData.put("quantity", inventory.getQuantity());
-			responseData.put("price", inventory.getPrice());
-			responseData.put("name", inventory.getProductName());
-			
-			return ResponseEntity.ok(responseData);
-			
-		}
-			
-		else
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product Not Available");
+	public ResponseEntity<?> getProductDetails(String productId) {
+		
+		
+		return inventoryRepository.findByProductId(productId).map(inventory -> new GetInventoryResponse(
+				inventory.getProductName(), inventory.getQuantity(), inventory.getPrice())).map(ResponseEntity::ok).
+		orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product Not Available") );
+		
 	}
 
 }

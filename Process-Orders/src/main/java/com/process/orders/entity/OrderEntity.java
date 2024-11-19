@@ -1,5 +1,6 @@
 package com.process.orders.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
@@ -41,12 +42,18 @@ public class OrderEntity {
 	private final String productName;
 	private final int quantity;
 	private final String productId;
+	private final BigDecimal price;
+	private final String orderStatus;
+
+	public BigDecimal getPrice() {
+		return price;
+	}
 
 	public String getProductId() {
 		return productId;
 	}
 
-	public OrderEntity(String orderId, Date orderDate, String accountId, String emiStatus,String productName,int quantity,String productId) {
+	public OrderEntity(String orderId, Date orderDate, String accountId, String emiStatus,String productName,int quantity,String productId, BigDecimal price,String orderStatus) {
 		this.orderId = orderId;
 		this.orderDate = orderDate;
 		this.accountId = accountId;
@@ -54,6 +61,8 @@ public class OrderEntity {
 		this.productName = productName;
 		this.quantity = quantity;
 		this.productId = productId;
+		this.price = price;
+		this.orderStatus = orderStatus;
 	}
 
 	public int getQuantity() {

@@ -18,7 +18,7 @@ public class InventoryController {
 	InventoryService inventoryService;
 
 	@GetMapping("/getProductDetails/{productId}")
-	public ResponseEntity<Map<String, Object>> getProductDetails(@PathVariable String productId)
+	public ResponseEntity<?> getProductDetails(@PathVariable String productId)
 	{
 		return inventoryService.getProductDetails(productId);
 	}

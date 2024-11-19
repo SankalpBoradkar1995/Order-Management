@@ -3,13 +3,17 @@ package com.process.orders.mapper;
 import java.util.Map;
 
 public class InventoryMapper {
-	private final Map<String, Object> data;
+	private  Object data;
 
-	public InventoryMapper(Map<String, Object> data) {
+	public InventoryMapper(Object data) {
 		this.data = data;
 	}
 
-	public Map<String, Object> getData() {
-		return data;
-	}
+	public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
 }
