@@ -1,7 +1,9 @@
 package com.process.orders.service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,30 +16,28 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.process.orders.entity.OrderEntity;
 import com.process.orders.feign.InventoryFeign;
-import com.process.orders.feign.ProceeePaymentFeign;
 import com.process.orders.mapper.InventoryMapper;
 import com.process.orders.repository.OrderRepository;
+import com.process.orders.request.PaymentRequest;
 
 @Service
 public class OrderService {
 
-	private final OrderEntity orderEntity;
 	private final ObjectMapper objectMapper;
 	private final OrderRepository orderRepository;
 	private final InventoryFeign inventoryFeign;
-	private final ProceeePaymentFeign processPaymentFeign;
+	private final PaymentService paymentService;
 
-	public OrderService(OrderEntity orderEntity, ObjectMapper objectMapper, OrderRepository orderRepository,
-			InventoryFeign inventoryFeign,ProceeePaymentFeign processPaymentFeign) {
-		this.orderEntity = orderEntity;
+	public OrderService(ObjectMapper objectMapper, OrderRepository orderRepository, InventoryFeign inventoryFeign,
+			PaymentService paymentService) {
 		this.objectMapper = objectMapper;
 		this.orderRepository = orderRepository;
 		this.inventoryFeign = inventoryFeign;
-		this.processPaymentFeign = processPaymentFeign;
+		this.paymentService = paymentService;
 
 	}
 
-	public ResponseEntity<?> orchestrator(OrderEntity orderEntity)
+	public ResponseEntity<?> paymentService(OrderEntity orderEntity)
 			throws JsonMappingException, JsonProcessingException {
 
 		if (validateStock(orderEntity)) {
@@ -48,18 +48,33 @@ public class OrderService {
 		return ResponseEntity.ok("Your order has been processed, " + orderId);
 	}
 
-	private void processPaymentAndUpdateStock(OrderEntity orderRequest) {
-		OrderEntity orderToProcess = new OrderEntity("Order ID :" + generateRandomOrderId(), // orderId will be set
-																								// after validation
-				new Date(), // order date is current
+	private CompletableFuture<String> processPaymentAndUpdateStock(OrderEntity orderRequest) {
+		OrderEntity orderToProcess = new OrderEntity("Order ID :" + generateRandomOrderId(), null,
 				orderRequest.getAccountId(), orderRequest.getEmiStatus(), orderRequest.getProductName(),
-				orderRequest.getQuantity(), orderRequest.getProductId(), orderRequest.getPrice(), "pending" // initial
-																											// status is
-																											// "pending"
-				
-		);
-		processPaymentFeign.executePayment(orderToProcess.getPrice(), "123456789");
+				orderRequest.getQuantity(), orderRequest.getProductId(), orderRequest.getPrice(), "pending"
 
+		);
+
+		BigDecimal amount = BigDecimal.valueOf(orderToProcess.getQuantity()).multiply(orderToProcess.getPrice());
+
+		return paymentService.executePayments(new PaymentRequest(amount, 9766034820L)).thenApply(paymentResponse -> {
+			if (paymentResponse.getStatusCode().is2xxSuccessful() && paymentResponse.getBody() != null) {
+				OrderEntity processedOrder = new OrderEntity(orderToProcess.getOrderId(), new Date(),
+						orderToProcess.getAccountId(), orderToProcess.getEmiStatus(), orderToProcess.getProductName(),
+						orderToProcess.getQuantity(), orderToProcess.getProductId(), amount, "PAYMENT_SUCCESSFUL");
+				orderRepository.save(processedOrder);
+				return processedOrder.getOrderId();
+			} else {
+				OrderEntity processedOrder = new OrderEntity(orderToProcess.getOrderId(), new Date(),
+						orderToProcess.getAccountId(), orderToProcess.getEmiStatus(), orderToProcess.getProductName(),
+						orderToProcess.getQuantity(), orderToProcess.getProductId(), amount, "PAYMENT_PENDING");
+				orderRepository.save(processedOrder);
+				return processedOrder.getOrderId();
+			}
+		}).exceptionally(ex -> {
+			return "Payment for Order ID: " + orderToProcess.getOrderId() + " is failed. Please try again";
+
+		});
 	}
 
 	private boolean validateStock(OrderEntity orderEntity) throws JsonMappingException, JsonProcessingException {
@@ -72,7 +87,6 @@ public class OrderService {
 		if (inventoryResponse.getStatusCode().is2xxSuccessful() && inventoryResponse.getBody() != null) {
 			String jsonString = objectMapper.writeValueAsString(inventoryResponse.getBody());
 			inventoryResponseNode1 = objectMapper.readTree(jsonString);
-			int requestQuantity = orderEntity.getQuantity();
 			if (inventoryResponseNode1.has("quantity")) {
 				Long availableQuantity = inventoryResponseNode1.get("quantity").asLong();
 				if (orderEntity.getQuantity() >= availableQuantity) {
