@@ -39,6 +39,9 @@
 		<mysql.version>8.3.0</mysql.version>
 		<spring-cloud.version>2023.0.3</spring-cloud.version>
 		<spring-aop.version>3.3.3</spring-aop.version>
+		<spring-cloud.version>2023.0.3</spring-cloud.version>
+		<rabbitmq.version>3.3.4</rabbitmq.version>
+		<rabbit-config.version>0.0.1-SNAPSHOT</rabbit-config.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -93,6 +96,23 @@
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-amqp</artifactId>
+				<version>${rabbitmq.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.rabbit.config</groupId>
+				<artifactId>RabbitMQConfig</artifactId>
+				<version>${rabbit-config.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-test</artifactId>
 				<scope>test</scope>
 			</dependency>
@@ -124,5 +144,6 @@
 		<module>Process-Orders</module>
 		<module>Process-Inventory</module>
 		<module>Eureka-Server</module>
+		<module>RabbitMQConfig</module>
 	</modules>
 </project>

@@ -8,6 +8,11 @@ public class InventoryMapper {
 	public InventoryMapper(Object data) {
 		this.data = data;
 	}
+	
+	public InventoryMapper()
+	{
+		
+	}
 
 	public Object getData() {
         return data;

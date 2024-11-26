@@ -10,63 +10,76 @@ import jakarta.persistence.Id;
 
 @Entity
 public class OrderEntity {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
 
-	private final String orderId;
-	private final Date orderDate;
-	public String getOrderId() {
-		return orderId;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	public Date getOrderDate() {
-		return orderDate;
-	}
+    private String orderId;
+    private Date orderDate;
+    private String accountId;
+    private String emiStatus;
+    private String productName;
+    private Integer quantity;
+    private String productId;
+    private BigDecimal price;
+    private String orderStatus;
 
-	public String getAccountId() {
-		return accountId;
-	}
+    // Default constructor (required by JPA)
+    public OrderEntity() {
+    }
 
-	public String getEmiStatus() {
-		return emiStatus;
-	}
+    // Parameterized constructor
+    public OrderEntity(String orderId, Date orderDate, String accountId, String emiStatus, String productName, Integer quantity, String productId, BigDecimal price, String orderStatus) {
+        this.orderId = orderId;
+        this.orderDate = orderDate;
+        this.accountId = accountId;
+        this.emiStatus = emiStatus;
+        this.productName = productName;
+        this.quantity = quantity;
+        this.productId = productId;
+        this.price = price;
+        this.orderStatus = orderStatus;
+    }
 
-	public String getProductName() {
-		return productName;
-	}
+    // Getters and Setters
+    public Integer getId() {
+        return id;
+    }
 
-	private final String accountId;
-	private final String emiStatus;
-	private final String productName;
-	private final int quantity;
-	private final String productId;
-	private final BigDecimal price;
-	private final String orderStatus;
+    public String getOrderId() {
+        return orderId;
+    }
 
-	public BigDecimal getPrice() {
-		return price;
-	}
+    public Date getOrderDate() {
+        return orderDate;
+    }
 
-	public String getProductId() {
-		return productId;
-	}
+    public String getAccountId() {
+        return accountId;
+    }
 
-	public OrderEntity(String orderId, Date orderDate, String accountId, String emiStatus,String productName,int quantity,String productId, BigDecimal price,String orderStatus) {
-		this.orderId = orderId;
-		this.orderDate = orderDate;
-		this.accountId = accountId;
-		this.emiStatus = emiStatus;
-		this.productName = productName;
-		this.quantity = quantity;
-		this.productId = productId;
-		this.price = price;
-		this.orderStatus = orderStatus;
-	}
+    public String getEmiStatus() {
+        return emiStatus;
+    }
 
-	public int getQuantity() {
-		return quantity;
-	}
+    public String getProductName() {
+        return productName;
+    }
 
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
 }
