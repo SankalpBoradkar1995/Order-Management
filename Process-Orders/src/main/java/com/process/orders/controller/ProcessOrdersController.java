@@ -1,6 +1,7 @@
 package com.process.orders.controller;
 
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,10 +46,9 @@ public class ProcessOrdersController {
 	    }
 	}
 	
-	@PostMapping(value="/processOrder")
-	public ResponseEntity<?> processOrder(@RequestBody OrderEntity orderEntity) throws JsonMappingException, JsonProcessingException
-	{
-		return ResponseEntity.ok(orderService.orchestrator(orderEntity));
+	@PostMapping(value = "/processOrder")
+	public CompletableFuture<ResponseEntity<?>> processOrder(@RequestBody OrderEntity orderEntity) throws JsonMappingException, JsonProcessingException {
+	    return orderService.orchestrator(orderEntity);
 	}
 	
 	

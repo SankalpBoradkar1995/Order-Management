@@ -1,11 +1,20 @@
-package com.process.orders.request;
+package com.process.payment.request;
 
 import java.math.BigDecimal;
 
 public class PaymentRequest {
 
+	public String getOrderId() {
+		return orderId;
+	}
+
 	public BigDecimal getAmount() {
 		return amount;
+	}
+
+	@Override
+	public String toString() {
+		return "PaymentRequest [amount=" + amount + ", phoneNumber=" + phoneNumber + ", orderId=" + orderId + "]";
 	}
 
 	public String getPhoneNumber() {

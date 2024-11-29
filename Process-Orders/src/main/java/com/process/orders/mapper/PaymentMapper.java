@@ -2,15 +2,20 @@ package com.process.orders.mapper;
 
 public class PaymentMapper {
 
-	private final Object data;
+	private final String data;
 	
-	public Object getData() {
+	public String getData() {
 		return data;
 	}
 
-	public PaymentMapper(Object data)
+	public PaymentMapper(String data)
 	{
 		this.data = data;
+	}
+	
+	public PaymentMapper()
+	{
+		this.data = null;
 	}
 	
 }

@@ -18,7 +18,6 @@ public class OrderEntity {
     private String orderId;
     private Date orderDate;
     private String accountId;
-    private String emiStatus;
     private String productName;
     private Integer quantity;
     private String productId;
@@ -30,17 +29,17 @@ public class OrderEntity {
     }
 
     // Parameterized constructor
-    public OrderEntity(String orderId, Date orderDate, String accountId, String emiStatus, String productName, Integer quantity, String productId, BigDecimal price, String orderStatus) {
-        this.orderId = orderId;
+    public OrderEntity(String orderId, Date orderDate, String accountId,  String productName, Integer quantity, String productId, BigDecimal price, String orderStatus) {
+    	this.orderId = orderId;
         this.orderDate = orderDate;
         this.accountId = accountId;
-        this.emiStatus = emiStatus;
         this.productName = productName;
         this.quantity = quantity;
         this.productId = productId;
         this.price = price;
         this.orderStatus = orderStatus;
     }
+    
 
     // Getters and Setters
     public Integer getId() {
@@ -57,10 +56,6 @@ public class OrderEntity {
 
     public String getAccountId() {
         return accountId;
-    }
-
-    public String getEmiStatus() {
-        return emiStatus;
     }
 
     public String getProductName() {

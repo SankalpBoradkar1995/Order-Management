@@ -20,9 +20,13 @@ public class PaymentService {
 	}
 	
 	@Async
-	public CompletableFuture<ResponseEntity<PaymentMapper>> executePayments(PaymentRequest paymentRequest)
+	public CompletableFuture<ResponseEntity<String>> executePayments(PaymentRequest paymentRequest)
 	{
-		return CompletableFuture.supplyAsync(() ->processPaymentFeign.executePayment(paymentRequest));
+		try {
+	        return CompletableFuture.completedFuture(processPaymentFeign.executePayment(paymentRequest));
+	    } catch (Exception e) {
+	        return CompletableFuture.failedFuture(e);
+	    }
 	}
 
 }

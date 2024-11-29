@@ -57,9 +57,16 @@ public class InventoryEventService {
 	}
 
 	@RabbitListener(queues = RabbitMQConfig.STOCK_REVERT_QUEUE)
-	public void handleStockRevertEvent(InventoryEvent inventoryEvent) {
-		System.out.println("Processing Stock Revert Event: " + inventoryEvent);
-		// Process the stock revert logic here
+	public void handleStockRevertEvent(String inventoryEventJson) throws JsonMappingException, JsonProcessingException {
+		InventoryEvent inventoryEvent = objectMapper.readValue(inventoryEventJson, InventoryEvent.class);
+		System.out.println("Processing Stock Deduction Event: " + inventoryEvent);
+		Optional<InventoryEntity> productInventory = inventoryRepository
+				.findByProductId(inventoryEvent.getProductId());
+		productInventory.ifPresent(availableQuantity -> {
+		    Integer updatedQuantity = availableQuantity.getQuantity() + inventoryEvent.getQuantity();
+		    InventoryEntity updatedProduct = availableQuantity.withUpdatedStock(updatedQuantity);
+		    inventoryRepository.save(updatedProduct);
+		});
 	}
 	//JsonMappingException, JsonProcessingException 
 

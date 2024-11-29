@@ -145,5 +145,6 @@
 		<module>Process-Inventory</module>
 		<module>Eureka-Server</module>
 		<module>RabbitMQConfig</module>
+		<module>Process-Payment</module>
 	</modules>
 </project>
