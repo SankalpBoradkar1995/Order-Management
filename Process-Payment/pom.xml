@@ -7,8 +7,8 @@
 		<artifactId>com.management.order</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.process.orders</groupId>
-	<artifactId>Process-Orders</artifactId>
+	<groupId>com.process.payment</groupId>
+	<artifactId>Process-Payment</artifactId>
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
@@ -38,14 +38,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-amqp</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.rabbit.config</groupId>
-			<artifactId>RabbitMQConfig</artifactId>
 		</dependency>
 	</dependencies>
 

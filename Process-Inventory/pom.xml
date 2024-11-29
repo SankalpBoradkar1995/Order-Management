@@ -7,8 +7,8 @@
 		<artifactId>com.management.order</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.process.orders</groupId>
-	<artifactId>Process-Orders</artifactId>
+	<artifactId>Process-Inventory</artifactId>
+	<name>Process-Inventory</name>
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
@@ -24,12 +24,12 @@
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.mysql</groupId>
